@@ -72,6 +72,7 @@ Notch.init()
 
 Notch.get_notch_height()
 Notch.get_bottom_safe_inset()
+```
 
 Why have to call `init()`. Well, if you don't want to call init, you can change `init()` to `_ready()` on the `autoload` file. But for my experience when using a lots of plugin, init all plugins on `_ready()` is not a good idea. So i let you choose whenever you init the plugin. When showing a loading scene...etc...
 
