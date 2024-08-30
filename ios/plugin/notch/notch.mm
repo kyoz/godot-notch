@@ -37,39 +37,42 @@ Notch *Notch::get_singleton() {
 
 
 void Notch::_bind_methods() {    
-    ClassDB::bind_method("get_notch_height", &Notch::get_notch_height);
-    ClassDB::bind_method("get_bottom_safe_inset", &Notch::get_bottom_safe_inset);
+    ClassDB::bind_method("get_safe_insets", &Notch::get_safe_insets);
 }
 
-int Notch::get_notch_height() {
+Dictionary Notch::get_safe_insets() {
     if (@available(iOS 11.0, *)) {
-        // Iterate over connected scenes to find the active window scene
-        for (UIWindowScene *windowScene in UIApplication.sharedApplication.connectedScenes) {
-            if (windowScene.activationState == UISceneActivationStateForegroundActive) {
-                // Get the first window from the active scene
-                UIWindow *window = windowScene.windows.firstObject;
-                if (window) {
-                    return (int)window.safeAreaInsets.top; // Return top inset (notch height) as an int
-                }
-            }
-        }
-    }
-    return 0;  // No notch or below iOS 11
-}
+         // Iterate over connected scenes to find the active window scene
+         for (UIWindowScene *windowScene in UIApplication.sharedApplication.connectedScenes) {
+             if (windowScene.activationState == UISceneActivationStateForegroundActive) {
+                 // Get the first window from the active scene
+                 UIWindow *window = windowScene.windows.firstObject;
+                 if (window) {
+                     // Get the safe area insets
+                     UIEdgeInsets safeInsets = window.safeAreaInsets;
 
-int Notch::get_bottom_safe_inset() {
-    if (@available(iOS 11.0, *)) {
-        // Iterate over connected scenes to find the active window scene
-        for (UIWindowScene *windowScene in UIApplication.sharedApplication.connectedScenes) {
-            if (windowScene.activationState == UISceneActivationStateForegroundActive) {
-                // Get the first window from the active scene
-                UIWindow *window = windowScene.windows.firstObject;
-                if (window) {
-                    return (int)window.safeAreaInsets.bottom; // Return bottom inset as an int
-                }
-            }
-        }
-    }
-    return 0;  // No bottom inset or below iOS 11
+                     // Create a dictionary with all insets as integer values
+                     Dictionary insetsDict;
+                     
+                     insetsDict["top"] =(int)safeInsets.top;
+                     insetsDict["bottom"] = (int)safeInsets.bottom;
+                     insetsDict["left"] = (int)safeInsets.left;
+                     insetsDict["right"] = (int)safeInsets.right;
+
+                     return insetsDict;  // Return the dictionary with all insets
+                 }
+             }
+         }
+     }
+     
+     // Return a dictionary with all zeros if no notch or below iOS 11
+    Dictionary emptyInsets;
+    
+    emptyInsets["top"] = 0;
+    emptyInsets["bottom"] = 0;
+    emptyInsets["left"] = 0;
+    emptyInsets["right"] = 0;
+
+    return emptyInsets;
 }
 

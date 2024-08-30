@@ -5,8 +5,8 @@
 //  Created by Kyoz on 30/08/2024.
 //
 
-#ifndef HAPTICS_H
-#define HAPTICS_H
+#ifndef NOTCH_H
+#define NOTCH_H
 
 #ifdef VERSION_4_0
 #include "core/object/object.h"
@@ -23,8 +23,7 @@ class Notch : public Object {
     static Notch *instance;
 
 public:
-    int get_notch_height();
-    int get_bottom_safe_inset();
+    Dictionary get_safe_insets();
 
     static Notch *get_singleton();
     

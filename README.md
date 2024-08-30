@@ -70,8 +70,9 @@ Then you can easily use it anywhere with:
 ```gdscript
 Notch.init()
 
-Notch.get_notch_height()
-Notch.get_bottom_safe_inset()
+Notch.get_safe_insets()
+
+# It will return { top: topSafeInset, bottom: bottomSafeInset, left: leftSafeInset, right: rightSafeInset}
 ```
 
 Why have to call `init()`. Well, if you don't want to call init, you can change `init()` to `_ready()` on the `autoload` file. But for my experience when using a lots of plugin, init all plugins on `_ready()` is not a good idea. So i let you choose whenever you init the plugin. When showing a loading scene...etc...
@@ -83,8 +84,7 @@ For more detail, see [examples](./example/)
 ## Methods
 
 ```gdscript
-void get_notch_height() # Get top safe inset size/ notch height
-void get_bottom_safe_inset() # Get bottom safe inset height
+void get_safe_insets() # Get safe inset {top, bottom, left, right}
 ```
 
 # Contribute

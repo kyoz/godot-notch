@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import org.godotengine.godot.Godot;
 import org.godotengine.godot.plugin.GodotPlugin;
 import org.godotengine.godot.plugin.UsedByGodot;
+import org.godotengine.godot.Dictionary;
 
 public class Notch extends GodotPlugin {
     private static final String TAG = "GodotNotch";
@@ -32,31 +33,30 @@ public class Notch extends GodotPlugin {
         return getClass().getSimpleName();
     }
 
-    @UsedByGodot
-    public int get_notch_height() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            WindowInsets insets = activity.getWindow().getDecorView().getRootWindowInsets();
-            if (insets != null) {
-                DisplayCutout cutout = insets.getDisplayCutout();
-                if (cutout != null) {
-                    return cutout.getSafeInsetTop();
-                }
-            }
-        }
-        return 0;  // No notch or below API level P
-    }
 
     @UsedByGodot
-    public int get_bottom_safe_inset() {
+    public Dictionary get_safe_insets() {
+        Dictionary safe_insets = new Dictionary();
+        safe_insets.put("top", 0);
+        safe_insets.put("bottom", 0);
+        safe_insets.put("left", 0);
+        safe_insets.put("right", 0);
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             WindowInsets insets = activity.getWindow().getDecorView().getRootWindowInsets();
             if (insets != null) {
                 DisplayCutout cutout = insets.getDisplayCutout();
                 if (cutout != null) {
-                    return cutout.getSafeInsetBottom();
+                    safe_insets.put("top", cutout.getSafeInsetTop());
+                    safe_insets.put("bottom", cutout.getSafeInsetBottom());
+                    safe_insets.put("left", cutout.getSafeInsetLeft());
+                    safe_insets.put("right", cutout.getSafeInsetRight());
+
+                    return safe_insets;
                 }
             }
         }
-        return 0;  // No bottom inset or below API level P
+        return safe_insets;
     }
 }

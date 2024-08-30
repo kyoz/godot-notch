@@ -9,6 +9,9 @@ extends Node
 func _ready():
 	Notch.init()
 	
-	notch_lbl.text = "Top Notch: " + str(Notch.get_notch_height())
-	bottom_safe_inset_lbl.text = "Bottom Safe Inset: " + str(Notch.get_bottom_safe_inset())
-	top_notch.custom_minimum_size.y = Notch.get_notch_height()
+	var top = Notch.get_safe_insets().top
+	var bottom = Notch.get_safe_insets().bottom
+
+	notch_lbl.text = "Top Notch: " + str(top)
+	bottom_safe_inset_lbl.text = "Bottom Safe Inset: " + str(bottom)
+	top_notch.custom_minimum_size.y = top
