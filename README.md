@@ -6,7 +6,7 @@
   <br>
 </h1>
 
-<h4 align="center">Godot plugin to use Notch on Android/iOS. Support Godot 3 & 4</a>.</h4>
+<h4 align="center">Godot plugin to use get safe insets/ notch on Android/iOS. Support Godot 3 & 4</a>.</h4>
 
 <p align="center">
   <a href="https://github.com/kyoz/godot-notch/releases">
@@ -37,7 +37,7 @@
 
 # About
 
-This plugin help you easily get the safe inset (top/ bottom), help you easily layout your ui or design your game...
+This plugin help you easily get the safe insets (top, bottom, left, right), help you easily layout your ui or design your game...
 
 Was build using automation scripts combine with CI/CD to help faster the release progress and well as release hotfix which save some of our times.
 
