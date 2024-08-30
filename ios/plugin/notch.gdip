@@ -1,0 +1,17 @@
+[config]
+name="Notch"
+binary="notch.a"
+
+initialization="register_notch_types"
+deinitialization="unregister_notch_types"
+
+[dependencies]
+linked=[]
+embedded=[]
+system=[]
+
+capabilities=[]
+
+files=[]
+
+[plist]

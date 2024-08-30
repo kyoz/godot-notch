@@ -1,0 +1,11 @@
+[config]
+
+name="Notch"
+binary_type="local"
+binary="notch-release.aar"
+
+[dependencies]
+
+local=[]
+remote=[]
+custom_maven_repos=[]
