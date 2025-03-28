@@ -25,7 +25,7 @@ jobs:
           ./scripts/android/release.sh
           ls -l .release/android
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: plugins
           path: .release/android/*.zip
@@ -57,7 +57,7 @@ jobs:
           ./scripts/ios/release.sh
           ls -l .release/ios
 
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         with:
           name: plugins
           path: .release/ios/*.zip
