@@ -1,3 +1,4 @@
+
 //
 //  notch.h
 //  notch
@@ -24,6 +25,10 @@ class Notch : public Object {
 
 public:
     Dictionary get_safe_insets();
+    String get_current_orientation_string();
+    
+    // Called from Objective-C when orientation changes
+    void on_orientation_changed(const String &orientation);
 
     static Notch *get_singleton();
     
