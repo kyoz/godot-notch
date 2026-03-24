@@ -36,15 +36,13 @@
 }
 
 - (void)startObserving {
+    // THAY ĐỔI: Lắng nghe UI Orientation thay vì Device Orientation
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(orientationDidChange:)
-                                                 name:UIDeviceOrientationDidChangeNotification
+                                                 name:UIApplicationDidChangeStatusBarOrientationNotification
                                                object:nil];
     
-    // Enable device orientation notifications
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    
-    NSLog(@"[NotchPlugin] Orientation observer started");
+    NSLog(@"[NotchPlugin] UI Orientation observer started");
 }
 
 - (void)stopObserving {
@@ -58,20 +56,26 @@
 }
 
 - (void)orientationDidChange:(NSNotification *)notification {
-    if (_notchInstance) {
-        UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-        
-        // Map device orientation to string
-        NSString *orientationString = [self getOrientationString:orientation];
-        
-        // Only emit signal for valid orientations (not face up/down/unknown)
-        if (![orientationString isEqualToString:@"Unknown"]) {
-            NSLog(@"[NotchPlugin] Orientation changed to: %@", orientationString);
+    // Ép chạy trên Main Thread để Godot nhận được Signal 100%
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (self.notchInstance) {
+            // Lấy hướng UI hiện tại (thay vì hướng vật lý của Device)
+            UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+            NSString *orientationString = @"Unknown";
             
-            // Call C++ method
-            _notchInstance->on_orientation_changed(String([orientationString UTF8String]));
+            if (UIInterfaceOrientationIsLandscape(orientation)) {
+                orientationString = (orientation == UIInterfaceOrientationLandscapeLeft) ? @"Landscape" : @"Reverse Landscape";
+            } else if (UIInterfaceOrientationIsPortrait(orientation)) {
+                orientationString = (orientation == UIInterfaceOrientationPortrait) ? @"Portrait" : @"Reverse Portrait";
+            }
+            
+            if (![orientationString isEqualToString:@"Unknown"]) {
+                NSLog(@"[NotchPlugin] UI Orientation changed to: %@", orientationString);
+                // Gọi sang C++
+                self.notchInstance->on_orientation_changed(String([orientationString UTF8String]));
+            }
         }
-    }
+    });
 }
 
 - (NSString *)getOrientationString:(UIDeviceOrientation)orientation {
